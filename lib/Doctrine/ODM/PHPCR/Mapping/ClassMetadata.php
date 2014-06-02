@@ -1413,7 +1413,8 @@ class ClassMetadata implements ClassMetadataInterface
     public function newInstance()
     {
         if ($this->prototype === null) {
-            $this->prototype = unserialize(sprintf('O:%d:"%s":0:{}', strlen($this->name), $this->name));
+            $ref = new ReflectionClass($this->name);
+            $this->prototype = $ref->newInstanceWithoutConstructor();
         }
 
         return clone $this->prototype;
